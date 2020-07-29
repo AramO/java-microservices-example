@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        output:
+            destination:  orgChangeTopic
+            content-type: application/json
+      kafka:
+        binder:
+          zkNodes: zookeeper:2181
+          brokers: kafkaserver:9092
+
+eureka:
+    instance:
+        preferIpAddress: true
+    client:
+        registerWithEureka: true
+        fetchRegistry: true
+        serviceUrl:
+            defaultZone: http://eurekanode0:8761/eureka/
+
+security:
+  oauth2:
+    resource:
+       userInfoUri: http://authservice:8901/auth/user
+       filterOrder: 3
+       
+signing:
+    key: "345345fsdfsf5345"
+    
+
+            

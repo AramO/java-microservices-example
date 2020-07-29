@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: eureka-cluster
+    
+server:
+  port: 8761
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 5
+  serviceUrl:
+    defaultZone: http://eurekanode0:8761
+

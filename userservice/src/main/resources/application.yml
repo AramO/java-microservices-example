@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        inboundOrgChanges:
+          destination: orgChangeTopic
+          content-type: application/json
+          group: userGroup
+          consumer:
+            concurrency: 3
+      kafka:
+        binder:
+          zkNodes: zookeeper:2181
+          brokers: kafkaserver:9092
+          autoAddPartitions: true
+          minPartitionCount: 10
+          configuration:
+            num.stream.threads: 3
+  data:
+    redis: 
+     repositories:
+       enabled: true
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+      cache-names: resultListCache
+      time-to-live: 10000
+      use-key-prefix: true
+  redis:
+    host: redis
+    port: 6379
+    time-to-live: 10000
+          
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+        defaultZone: http://eurekanode0:8761/eureka/
+        
+security:
+  oauth2:
+    resource:
+       userInfoUri: http://authservice:8901/auth/user
+       filterOrder: 3
+       
+signing:
+    key: "345345fsdfsf5345"
+
+        

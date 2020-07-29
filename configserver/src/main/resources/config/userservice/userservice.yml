@@ -1,0 +1,4 @@
+spring:
+    data:
+        mongodb:           
+            uri: mongodb://${MONGO_USERNAME:mongoUser}:${MONGO_PASSWORD:password}@mongoserver0:27017,mongoserver1:27017/userDB?replicaSet=rs0&ssl=false&connectTimeoutMS=300&minPoolSize=0&maxPoolSize=100&maxIdleTimeMS=900000&readPreference=primaryPreferred&authSource=admin

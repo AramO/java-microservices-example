@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.aram</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>java-microservices-example</artifactId>
+    <packaging>pom</packaging>
+    <name>java-microservices-example</name>
+    <description>Parent Pom for the java-microservices-example project</description>
+    <modules>
+        <module>configserver</module>
+        <module>eurekanode0</module>
+        <module>zuulserver</module>
+        <module>organizationservice</module>
+        <module>userservice</module>
+        <module>authservice</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+</project>

@@ -1,0 +1,13 @@
+server:
+   port: 8080
+spring:
+  application:
+    name: organizationservice
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      uri: http://configserver:8888
+      service-id: organizationservice
+      enabled: true

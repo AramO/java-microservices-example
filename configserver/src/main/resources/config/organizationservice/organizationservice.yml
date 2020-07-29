@@ -1,0 +1,27 @@
+spring:
+    datasource:
+        url: '${PSQL_URI:jdbc:postgresql://postgres:5432/example_db}'
+        username: '${PSQL_DB_USER:dbuser}'
+        password: '${PSQL_DB_PASSWORD:password}'
+        platform: POSTGRESQL
+        testWhileIdle: true
+        validationQuery: 'SELECT 1'
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        show-sql: false
+        database: postgresql
+        hibernate:
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        
+#security:
+#    oauth2:
+#        resource:
+#            userInfoUri: http://authservice:8901/auth/user
+
+logging:
+    level:
+        org:
+            springframework:
+                security: DEBUG
+

@@ -1,0 +1,17 @@
+eureka:
+    instance:
+        preferIpAddress: true
+    client:
+        registerWithEureka: true
+        fetchRegistry: true
+        serviceUrl:
+            defaultZone: http://eurekanode0:8761/eureka/
+        
+server:
+    servlet:
+        contextPath: /auth
+        
+signing:
+    key: "345345fsdfsf5345"
+
+        

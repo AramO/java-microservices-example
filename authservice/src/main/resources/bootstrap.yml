@@ -1,0 +1,14 @@
+server:
+   port: 8901
+spring:
+  application:
+    name: authservice
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      uri: http://configserver:8888
+      service-id: authservice
+      enabled: true
+

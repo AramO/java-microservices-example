@@ -1,0 +1,31 @@
+zuul:
+    debug:
+        request: true
+    ignored-services: "*"
+    routes:
+        organizationservice: /organization/**
+        userservice: /user/**
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 2500
+        userservice:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 2
+#userservice:
+#    ribbon:
+#        ReadTimeout: 2
+signing:
+    key: "345345fsdfsf5345"
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: routes,filters
+

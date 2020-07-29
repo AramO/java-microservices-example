@@ -1,0 +1,15 @@
+server:
+   port: 8081
+spring:
+  application:
+    name: userservice
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      uri: http://configserver:8888
+      service-id: userservice
+      enabled: true
+
+
