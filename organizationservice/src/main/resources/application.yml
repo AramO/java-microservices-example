@@ -9,6 +9,15 @@ spring:
         binder:
           zkNodes: zookeeper:2181
           brokers: kafkaserver:9092
+  zipkin:
+    baseUrl: http://zipkinserver:9411
+    enabled: true    
+  sleuth:
+    enabled: true
+    http:
+      enabled: true
+    sampler: null
+    percentage: 1
 
 eureka:
     instance:

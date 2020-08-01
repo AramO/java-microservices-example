@@ -158,7 +158,23 @@ services:
     - zookeeper
     networks:
     - examplenetwork
-      
+  zipkinserver:
+    image: openzipkin/zipkin
+    container_name: zipkinserver
+    environment:
+      - STORAGE_TYPE=mem   
+    ports:
+      - '9411:9411'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 4096M
+        reservations:
+          cpus: '0.25'
+          memory: 4096M
+    networks:
+      - examplenetwork  
 networks:
   examplenetwork:
     driver: bridge   

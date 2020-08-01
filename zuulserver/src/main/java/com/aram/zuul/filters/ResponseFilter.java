@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import brave.Tracer;
 
 /**
  *
@@ -18,7 +19,10 @@ public class ResponseFilter extends ZuulFilter {
     private static final boolean  SHOULD_FILTER = true;
 
     @Autowired
-    FilterUtil filterUtil;
+    private FilterUtil filterUtil;
+    
+    @Autowired
+    private Tracer tracer;
 
     @Override
     public String filterType() {
@@ -38,8 +42,8 @@ public class ResponseFilter extends ZuulFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-
-        ctx.getResponse().addHeader(FilterUtil.CORRELATION_ID, filterUtil.getCorrelationId());
+        
+        ctx.getResponse().addHeader(FilterUtil.CORRELATION_ID, tracer.currentSpan().context().traceIdString());
 
         return null;
     }

@@ -6,4 +6,4 @@ RUN useradd -ms /bin/sh example123 \
 USER example123
 
 ENTRYPOINT ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "/opt/eurekanode0.jar"]
-EXPOSE 8888
+EXPOSE 8761

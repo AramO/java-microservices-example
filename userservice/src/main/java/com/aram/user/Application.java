@@ -1,5 +1,6 @@
 package com.aram.user;
 
+import brave.sampler.Sampler;
 import com.aram.user.utils.UserContextInterceptor;
 import java.util.Collections;
 import java.util.List;
@@ -54,5 +55,10 @@ public class Application {
             template.setInterceptors(interceptors);
         }
         return template;
+    }
+    
+    @Bean
+    public Sampler sampler() {
+        return Sampler.ALWAYS_SAMPLE;
     }
 }

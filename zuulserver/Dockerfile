@@ -6,4 +6,4 @@ RUN useradd -ms /bin/sh example123 \
 USER example123
 
 ENTRYPOINT ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "/opt/zuulserver.jar"]
-EXPOSE 8888
+EXPOSE 5555

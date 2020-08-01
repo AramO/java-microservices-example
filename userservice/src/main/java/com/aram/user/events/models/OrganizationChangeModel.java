@@ -19,5 +19,6 @@ public class OrganizationChangeModel implements Serializable {
     private String type;
     private String action;
     private Long organizationId;
-    private String correlationId;  
+    private String correlationId;
+    
 }
