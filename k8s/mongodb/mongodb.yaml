@@ -1,7 +1,8 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mongodb
+  namespace: mongo-database
   labels:
     app: mongodb
 spec:
@@ -23,28 +24,50 @@ spec:
         - name: MONGO_INITDB_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: mongodb
+              name: mongodb-configmap
               key: database-name
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mongodb
+              name: mongodb-secret
               key: database-user
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongodb
+              name: mongodb-secret
               key: database-password
+        volumeMounts:
+        - name: mongodb-data
+          mountPath: /data/db
+          subPath: data
+      volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+                claimName: mongodb-data
+---
+# Request a persistent volume from the cluster using a Persistent Volume Claim.
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mongodb-data
+  annotations:
+    volume.alpha.kubernetes.io/storage-class: default
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: mongodb-service
+  namespace: mongo-database
   labels:
     app: mongodb
 spec:
+  selector:
+    app: mongodb
   ports:
   - port: 27017
     protocol: TCP
-  selector:
-    app: mongodb
