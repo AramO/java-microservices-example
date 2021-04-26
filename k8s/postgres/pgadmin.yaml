@@ -1,55 +1,57 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb
+  name: pgadmin
   labels:
-    app: mongodb
+    app: pgadmin
 spec:
-  serviceName: mongodb-service
+  serviceName: pgadmin-service
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: pgadmin
   template:
     metadata:
       labels:
-        app: mongodb
+        app: pgadmin
     spec:
       containers:
-      - name: mongodb
-        image: mongo:latest
+      - name: pgadmin
+        image: "dpage/pgadmin4"
         ports:
-        - containerPort: 27017
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        - name: https
+          containerPort: 443
+          protocol: TCP
         env:
-        - name: MONGO_INITDB_DATABASE
+        - name: PGADMIN_DEFAULT_EMAIL
           valueFrom:
             configMapKeyRef:
-              name: mongodb-configmap
-              key: database-name
-        - name: MONGO_INITDB_ROOT_USERNAME
+              name: postgres-configmap
+              key: pgadmin-email
+        - name: PGADMIN_DEFAULT_PASSWORD
+          # value: pgadmin123
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
-              key: database-user
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mongodb-secret
-              key: database-password
+              name: postgres-secret
+              key: pgadmin-password
         volumeMounts:
-        - name: mongodb-data
+        - name: pgadmin-data
           mountPath: /data/db
           subPath: data
       volumes:
-        - name: mongodb-data
+        - name: pgadmin-data
           persistentVolumeClaim:
-            claimName: mongodb-data
+            claimName: pgadmin-data
+
 ---
 # Request a persistent volume from the cluster using a Persistent Volume Claim.
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: mongodb-data
+  name: pgadmin-data
   annotations:
     volume.alpha.kubernetes.io/storage-class: default
 spec:
@@ -57,16 +59,17 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: pgadmin-service
   labels:
-    app: mongodb
+    app: pgadmin
 spec:
   selector:
-    app: mongodb
+    app: pgadmin
   ports:
-  - port: 27017
+  - port: 80
     protocol: TCP

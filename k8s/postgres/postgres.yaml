@@ -1,55 +1,56 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb
+  name: postgres
   labels:
-    app: mongodb
+    app: postgres
 spec:
-  serviceName: mongodb-service
+  serviceName: postgres-service
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: postgres
   template:
     metadata:
       labels:
-        app: mongodb
+        app: postgres
     spec:
       containers:
-      - name: mongodb
-        image: mongo:latest
+      - name: postgres
+        image: postgres:latest
         ports:
-        - containerPort: 27017
+        - containerPort: 5432
         env:
-        - name: MONGO_INITDB_DATABASE
+        - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:
-              name: mongodb-configmap
+              name: postgres-configmap
               key: database-name
-        - name: MONGO_INITDB_ROOT_USERNAME
+        - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
+              name: postgres-secret
               key: database-user
-        - name: MONGO_INITDB_ROOT_PASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
+              name: postgres-secret
               key: database-password
         volumeMounts:
-        - name: mongodb-data
+        - name: postgres-data
           mountPath: /data/db
           subPath: data
       volumes:
-        - name: mongodb-data
+        - name: postgres-data
           persistentVolumeClaim:
-            claimName: mongodb-data
+            claimName: postgres-data
+
 ---
 # Request a persistent volume from the cluster using a Persistent Volume Claim.
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: mongodb-data
+  name: postgres-data
   annotations:
     volume.alpha.kubernetes.io/storage-class: default
 spec:
@@ -57,16 +58,17 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: postgres-service
   labels:
-    app: mongodb
+    app: postgres
 spec:
   selector:
-    app: mongodb
+    app: postgres
   ports:
-  - port: 27017
+  - port: 5432
     protocol: TCP

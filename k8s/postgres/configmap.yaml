@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configmap
+data:
+  database-name: mic_db
+  pgadmin-email: pgadmin@test.com
