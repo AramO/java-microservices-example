@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe
+  labels:
+    app: fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fe
+  template:
+    metadata:
+      labels:
+        app: fe
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: fe
+        image: 127.0.0.1:5000/fe:0.0.9
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fe-service
+  labels:
+    app: fe
+spec:
+  selector:
+    app: fe
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
