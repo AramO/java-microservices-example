@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: django-gateway-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+#    nginx.ingress.kubernetes.io/configuration-snippet: |
+#      proxy_set_header Authorization "Basic Y2xpZW50OnNlY3JldA==";
+spec:
+  rules:
+  - host: microservices.info
+    http:
+      paths:
+      - path: /dj/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: django-service
+            port:
+              number: 8081
