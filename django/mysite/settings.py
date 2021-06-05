@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -37,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #3rd party
+    'django_celery_results',
+    # Project
+    'demoapp',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +128,14 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# REDIS
+REDIS_URL = "redis://{host}:{port}/1".format(
+    host=os.getenv('REDIS_HOST', 'localhost'),
+    port=os.getenv('REDIS_PORT', '6379')
+)
+
+# CELERY
+BROKER_URL = REDIS_URL
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL

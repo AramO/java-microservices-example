@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django
+  name: celery-beat
   labels:
-    app: django
+    app: celery-beat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: django
+      app: celery-beat
   template:
     metadata:
       labels:
-        app: django
+        app: celery-beat
     spec:
       imagePullSecrets:
       - name: regcred
       containers:
-      - name: django
+      - name: celery-beat
         image: 127.0.0.1:5000/django:latest
-        command: ['celery -A mysite beat -l debug && celery -A mysite worker -l debug']
+        command: ['celery', '-A', 'mysite', 'beat', '-l', 'debug']
         imagePullPolicy: Always
         ports:
         - containerPort: 8081
@@ -36,19 +36,3 @@ spec:
 #            secretKeyRef:
 #              name: postgres-secret
 #              key: database-password
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: django-service
-  labels:
-    app: django
-spec:
-  selector:
-    app: django
-  type: NodePort
-  ports:
-  - port: 8081
-    targetPort: 8001
-    protocol: TCP

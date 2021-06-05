@@ -1,1 +1,4 @@
 Django
+celery
+redis
+django-celery-results
