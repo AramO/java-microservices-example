@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quartz
+  labels:
+    app: quartz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quartz
+  template:
+    metadata:
+      labels:
+        app: quartz
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: quartz
+        imagePullPolicy: Always
+        image: 192.168.49.2:5000/quartz:latest
+        ports:
+        - containerPort: 8088
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database-password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quartz-service
+  labels:
+    app: quartz
+spec:
+  type: NodePort
+  selector:
+    app: quartz
+  ports:
+  - port: 8088
+    nodePort: 30007
+    protocol: TCP

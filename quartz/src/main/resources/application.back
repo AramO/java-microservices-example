@@ -1,0 +1,47 @@
+#APP CONFIGS
+server:
+  port=8088
+
+spring:
+  datasource:
+    platform: POSTGRESQL
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://quartz-service:5432/example_db
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    database: postgresql
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+#      dialect: org.hibernate.dialect.PostgreSQL95Dialect
+    show-sql: true
+  #QUARTZ CONFIGS
+#  quartz:
+#    job-store-type: jdbc
+#    jdbc:
+#      initialize-schema: never
+#    properties:
+#      org:
+#        quartz:
+#          scheduler:
+#            instanceName: quartz-service
+#            instanceId: AUTO
+#            instanceIdGenerator:
+#              class: com.helixz.quartz.demo.component.CustomQuartzInstanceIdGenerator
+#          threadPool:
+#            threadCount: 20
+#          jobStore:
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#            useProperties: true
+#            misfireThreshold: 60000
+#            tablePrefix: qrtz_
+#            isClustered: true
+#          plugin:
+#            shutdownHook:
+#              class: org.quartz.plugins.management.ShutdownHookPlugin
+#              shutdownHook:
+#                cleanShutdown: TRUE
