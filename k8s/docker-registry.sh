@@ -9,10 +9,10 @@ mkdir auth && cd auth
 
 docker run \
   --entrypoint htpasswd \
-  httpd:2 -Bbn testuser testpassword > auth/htpasswd
+  httpd:2 -Bbn 'testuser' 'testpassword' > auth/htpasswd
 
 docker run -d \
-  -p 5000:5000 \
+  -p 127.0.0.1:5000:5000 \
   --restart=always \
   --name registry \
   -v "$(pwd)"/auth:/auth \
@@ -22,3 +22,7 @@ docker run -d \
   registry:2
 
 #curl -u testuser:testpassword -X GET http://127.0.0.1:5000/v2/_catalog
+
+#The user jenkins needs to be added to the group docker:
+sudo usermod -a -G docker jenkins
+#Then restart Jenkins.

@@ -23,11 +23,22 @@ apt-get install docker-ce docker-ce-cli containerd.io
 #Install conntrack
 apt install conntrack
 
+#docker install v2
+You must be user root, if you are not root, run command “sudo su” to become user root.
+wget -qO- https://get.docker.com/ | sh
+Minikube only allows us to run as a normal user, so we need to add the user we will be using in group docker.
+usermod -aG docker YOUR_USER_NAME_HERE
+su - YOUR_USER_NAME_HERE
+minikube start --driver=docker
+
 # install kubectl
 # https://github.com/kubernetes/minikube/issues/3437#issuecomment-449408316, maybe use https://storage.googleapis.com/minikube/releases/v0.30.0/docker-machine-driver-kvm2
 curl -Lo /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
  chmod +x /tmp/kubectl && \
  mv /tmp/kubectl /usr/local/bin/kubectl
+
+ #Get kubconfig file
+ kubectl config view --flatten=true
 
 # install minikube
 curl -Lo /tmp/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && \
