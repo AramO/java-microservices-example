@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #https://docs.docker.com/engine/reference/commandline/pull/
-
 #docker container stop registry && docker container rm -v registry
 
 #mkdir docker-registry && cd docker-registry
